@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Data
@@ -30,6 +31,7 @@ public class Flight {
 
     // One flight has many passengers
     @OneToMany(mappedBy = "flight")
+    @JsonIgnore
     private List<Passenger> passengers;
 
     // Airline operating this flight

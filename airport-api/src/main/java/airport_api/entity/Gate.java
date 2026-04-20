@@ -2,6 +2,7 @@ package airport_api.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
@@ -21,5 +22,6 @@ public class Gate {
 
     // One gate can be used by many flights over time
     @OneToMany(mappedBy = "gate")
+    @JsonIgnore
     private List<Flight> flights;
 }
