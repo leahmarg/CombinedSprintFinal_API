@@ -2,6 +2,7 @@ package airport_api.service;
 
 import airport_api.dto.AircraftDTO;
 import airport_api.entity.Aircraft;
+import airport_api.exception.ResourceNotFoundException;
 import airport_api.repository.AircraftRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class AircraftService {
         this.aircraftRepository = aircraftRepository;
     }
 
-    // Entity to DTO
+    // ENTITY TO DTO
     private AircraftDTO mapToDTO(Aircraft aircraft) {
         AircraftDTO dto = new AircraftDTO();
 
@@ -26,6 +27,17 @@ public class AircraftService {
         dto.setAircraftCapacity(aircraft.getAircraftCapacity());
 
         return dto;
+    }
+
+    // VALIDATION
+    private void validateAircraft(Aircraft aircraft) {
+        if (aircraft.getAircraftModel() == null || aircraft.getAircraftModel().isBlank()) {
+            throw new IllegalArgumentException("Aircraft model is required");
+        }
+
+        if (aircraft.getAircraftCapacity() == null) {
+            throw new IllegalArgumentException("Aircraft capacity is required");
+        }
     }
 
     // CREATE
@@ -45,21 +57,26 @@ public class AircraftService {
     // GET BY ID
     public AircraftDTO getAircraftById(Long id) {
         Aircraft aircraft = aircraftRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Aircraft not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Aircraft not found"));
 
         return mapToDTO(aircraft);
     }
 
     // UPDATE
     public AircraftDTO updateAircraft(Long id, Aircraft updatedAircraft) {
-
         Aircraft aircraft = aircraftRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Aircraft not found"));
 
-        aircraft.setAircraftModel(updatedAircraft.getAircraftModel());
-        aircraft.setAircraftCapacity(updatedAircraft.getAircraftCapacity());
+        if (updatedAircraft.getAircraftModel() != null) {
+            aircraft.setAircraftModel(updatedAircraft.getAircraftModel());
+        }
 
-        return mapToDTO(aircraftRepository.save(aircraft));
+        if (updatedAircraft.getAircraftCapacity() != null) {
+            aircraft.setAircraftCapacity(updatedAircraft.getAircraftCapacity());
+        }
+
+        Aircraft saved = aircraftRepository.save(aircraft);
+        return mapToDTO(saved);
     }
 
     // DELETE
