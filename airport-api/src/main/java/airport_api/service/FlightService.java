@@ -17,25 +17,27 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
-    // ENtity to DTO
+    // Entity to DTO
     private FlightDTO mapToDTO(Flight flight) {
+
         FlightDTO dto = new FlightDTO();
 
         dto.setId(flight.getId());
         dto.setFlightNumber(flight.getFlightNumber());
         dto.setDepartureTime(flight.getDepartureTime());
 
-        dto.setDepartureAirportName(
-                flight.getDepartureAirport().getName()
-        );
+        // Null checks
+        if (flight.getDepartureAirport() != null) {
+            dto.setDepartureAirportCode(flight.getDepartureAirport().getAirportCode());
+        }
 
-        dto.setArrivalAirportName(
-                flight.getArrivalAirport().getName()
-        );
+        if (flight.getArrivalAirport() != null) {
+            dto.setArrivalAirportCode(flight.getArrivalAirport().getAirportCode());
+        }
 
-        dto.setAircraftModel(
-                flight.getAircraft().getModel()
-        );
+        if (flight.getAircraft() != null) {
+            dto.setAircraftModel(flight.getAircraft().getAircraftModel());
+        }
 
         return dto;
     }
@@ -64,6 +66,7 @@ public class FlightService {
 
     // UPDATE
     public FlightDTO updateFlight(Long id, Flight updatedFlight) {
+
         Flight flight = flightRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Flight not found"));
 
@@ -73,7 +76,9 @@ public class FlightService {
         flight.setArrivalAirport(updatedFlight.getArrivalAirport());
         flight.setAircraft(updatedFlight.getAircraft());
 
-        return mapToDTO(flightRepository.save(flight));
+        Flight saved = flightRepository.save(flight);
+
+        return mapToDTO(saved);
     }
 
     // DELETE
