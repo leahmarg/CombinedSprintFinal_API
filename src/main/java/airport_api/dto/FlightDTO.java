@@ -13,4 +13,9 @@ public class FlightDTO {
     private String departureAirportCode;
     private String arrivalAirportCode;
     private String aircraftModel;
+
+    private Long airlineId;
+    private String airlineName;
+    private String gateNumber;
+    private String status;
 }

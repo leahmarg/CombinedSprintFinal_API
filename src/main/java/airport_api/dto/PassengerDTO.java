@@ -12,5 +12,6 @@ public class PassengerDTO {
     private String phone;
     private String passportCode;
 
-    private Long flightNumber;
+    private Long flightId;
+    private String flightNumber;
 }

@@ -7,6 +7,6 @@ public class GateDTO {
 
     private Long id;
     private String gateNumber;
-
-    private String airportCode;
+    private Long airportId;
+    private String airportName;
 }
