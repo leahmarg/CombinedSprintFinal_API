@@ -2,6 +2,7 @@ package airport_api.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
@@ -18,5 +19,6 @@ public class Aircraft {
 
     // One aircraft can be used for many flights
     @OneToMany(mappedBy = "aircraft")
+    @JsonIgnore
     private List<Flight> flights;
 }
