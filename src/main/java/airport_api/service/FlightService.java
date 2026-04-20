@@ -2,6 +2,7 @@ package airport_api.service;
 
 import airport_api.dto.FlightDTO;
 import airport_api.entity.*;
+import airport_api.exception.ResourceNotFoundException;
 import airport_api.repository.*;
 import org.springframework.stereotype.Service;
 
@@ -61,11 +62,48 @@ public class FlightService {
             dto.setGateNumber(flight.getGate().getGateNumber());
         }
 
+        // PLACEHOLDER ATM
+        dto.setStatus("SCHEDULED");
+
         return dto;
+    }
+
+    // VALIDATION
+    private void validateFlight(Flight flight) {
+
+        if (flight.getFlightNumber() == null || flight.getFlightNumber().isBlank()) {
+            throw new IllegalArgumentException("Flight number is required");
+        }
+
+        if (flight.getDepartureTime() == null) {
+            throw new IllegalArgumentException("Departure time is required");
+        }
+
+        if (flight.getDepartureAirport() == null) {
+            throw new IllegalArgumentException("Departure airport is required");
+        }
+
+        if (flight.getArrivalAirport() == null) {
+            throw new IllegalArgumentException("Arrival airport is required");
+        }
+
+        if (flight.getAircraft() == null) {
+            throw new IllegalArgumentException("Aircraft is required");
+        }
+
+        if (flight.getAirline() == null) {
+            throw new IllegalArgumentException("Airline is required");
+        }
+
+        if (flight.getGate() == null) {
+            throw new IllegalArgumentException("Gate is required");
+        }
     }
 
     // CREATE
     public FlightDTO createFlight(Flight flight) {
+        validateFlight(flight);
+
         Flight saved = flightRepository.save(flight);
         return mapToDTO(saved);
     }
@@ -81,7 +119,7 @@ public class FlightService {
     // GET BY ID
     public FlightDTO getFlightById(Long id) {
         Flight flight = flightRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Flight not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Flight not found"));
 
         return mapToDTO(flight);
     }
@@ -90,15 +128,35 @@ public class FlightService {
     public FlightDTO updateFlight(Long id, Flight updatedFlight) {
 
         Flight flight = flightRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Flight not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Flight not found"));
 
-        flight.setFlightNumber(updatedFlight.getFlightNumber());
-        flight.setDepartureTime(updatedFlight.getDepartureTime());
-        flight.setDepartureAirport(updatedFlight.getDepartureAirport());
-        flight.setArrivalAirport(updatedFlight.getArrivalAirport());
-        flight.setAircraft(updatedFlight.getAircraft());
-        flight.setAirline(updatedFlight.getAirline());
-        flight.setGate(updatedFlight.getGate());
+        if (updatedFlight.getFlightNumber() != null) {
+            flight.setFlightNumber(updatedFlight.getFlightNumber());
+        }
+
+        if (updatedFlight.getDepartureTime() != null) {
+            flight.setDepartureTime(updatedFlight.getDepartureTime());
+        }
+
+        if (updatedFlight.getDepartureAirport() != null) {
+            flight.setDepartureAirport(updatedFlight.getDepartureAirport());
+        }
+
+        if (updatedFlight.getArrivalAirport() != null) {
+            flight.setArrivalAirport(updatedFlight.getArrivalAirport());
+        }
+
+        if (updatedFlight.getAircraft() != null) {
+            flight.setAircraft(updatedFlight.getAircraft());
+        }
+
+        if (updatedFlight.getAirline() != null) {
+            flight.setAirline(updatedFlight.getAirline());
+        }
+
+        if (updatedFlight.getGate() != null) {
+            flight.setGate(updatedFlight.getGate());
+        }
 
         Flight saved = flightRepository.save(flight);
 
