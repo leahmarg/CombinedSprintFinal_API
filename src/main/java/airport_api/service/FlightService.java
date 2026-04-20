@@ -1,8 +1,8 @@
 package airport_api.service;
 
 import airport_api.dto.FlightDTO;
-import airport_api.entity.Flight;
-import airport_api.repository.FlightRepository;
+import airport_api.entity.*;
+import airport_api.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +11,24 @@ import java.util.stream.Collectors;
 @Service
 public class FlightService {
 
+    private final AircraftRepository aircraftRepository;
+    private final AirlineRepository airlineRepository;
+    private final AirportRepository airportRepository;
     private final FlightRepository flightRepository;
+    private final GateRepository gateRepository;
 
-    public FlightService(FlightRepository flightRepository) {
+    public FlightService(
+            FlightRepository flightRepository,
+            AirlineRepository airlineRepository,
+            AirportRepository airportRepository,
+            AircraftRepository aircraftRepository,
+            GateRepository gateRepository
+    ) {
         this.flightRepository = flightRepository;
+        this.airlineRepository = airlineRepository;
+        this.airportRepository = airportRepository;
+        this.aircraftRepository = aircraftRepository;
+        this.gateRepository = gateRepository;
     }
 
     // Entity to DTO
@@ -37,6 +51,14 @@ public class FlightService {
 
         if (flight.getAircraft() != null) {
             dto.setAircraftModel(flight.getAircraft().getAircraftModel());
+        }
+
+        if (flight.getAirline() != null) {
+            dto.setAirlineName(flight.getAirline().getAirlineName());
+        }
+
+        if (flight.getGate() != null) {
+            dto.setGateNumber(flight.getGate().getGateNumber());
         }
 
         return dto;
@@ -75,6 +97,8 @@ public class FlightService {
         flight.setDepartureAirport(updatedFlight.getDepartureAirport());
         flight.setArrivalAirport(updatedFlight.getArrivalAirport());
         flight.setAircraft(updatedFlight.getAircraft());
+        flight.setAirline(updatedFlight.getAirline());
+        flight.setGate(updatedFlight.getGate());
 
         Flight saved = flightRepository.save(flight);
 
