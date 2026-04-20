@@ -28,16 +28,24 @@ public class AirportService {
         dto.setCountry(airport.getCountry());
         dto.setCity(airport.getCity());
 
-        // NULL CHECKS
-        if (airport.getAirportName() != null) {
-            dto.setAirportName(airport.getAirportName());
+        return dto;
+    }
+
+    // VALIDATION
+    private void validateAirport(Airport airport) {
+        if (airport.getAirportName() == null || airport.getAirportName().isBlank()) {
+            throw new IllegalArgumentException("Airport name is required");
         }
 
-        return dto;
+        if (airport.getAirportCode() == null || airport.getAirportCode().isBlank()) {
+            throw new IllegalArgumentException("Airport code is required");
+        }
     }
 
     // CREATE
     public AirportDTO createAirport(Airport airport) {
+        validateAirport(airport);
+
         Airport saved = airportRepository.save(airport);
         return mapToDTO(saved);
     }
@@ -63,13 +71,23 @@ public class AirportService {
         Airport airport = airportRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
 
-        airport.setAirportName(updatedAirport.getAirportName());
-        airport.setAirportCode(updatedAirport.getAirportCode());
-        airport.setCountry(updatedAirport.getCountry());
-        airport.setCity(updatedAirport.getCity());
+        if (updatedAirport.getAirportName() != null) {
+            airport.setAirportName(updatedAirport.getAirportName());
+        }
+
+        if (updatedAirport.getAirportCode() != null) {
+            airport.setAirportCode(updatedAirport.getAirportCode());
+        }
+
+        if (updatedAirport.getCountry() != null) {
+            airport.setCountry(updatedAirport.getCountry());
+        }
+
+        if (updatedAirport.getCity() != null) {
+            airport.setCity(updatedAirport.getCity());
+        }
 
         Airport saved = airportRepository.save(airport);
-
         return mapToDTO(saved);
     }
 
