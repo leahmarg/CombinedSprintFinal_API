@@ -50,7 +50,7 @@ public class AirlineService {
     }
 
     // GET ALL
-    public List<AirlineDTO> getAllAirlines(Airline airline) {
+    public List<AirlineDTO> getAllAirlines() {
         return airlineRepository.findAll()
                 .stream()
                 .map(this::mapToDTO)
