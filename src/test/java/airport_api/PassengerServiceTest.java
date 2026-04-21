@@ -1,5 +1,6 @@
 package airport_api;
 
+import airport_api.dto.PassengerDTO;
 import airport_api.entity.Passenger;
 import airport_api.exception.ResourceNotFoundException;
 import airport_api.repository.PassengerRepository;
@@ -47,6 +48,51 @@ public class PassengerServiceTest {
         when(passengerRepository.findById(1L)).thenReturn(Optional.of(passenger1));
 
         assertNotNull(passengerService.getPassengerById(1L));
+    }
+
+    @Test
+    void shouldUpdatePassenger() {
+
+        Passenger existingPassenger = new Passenger();
+        existingPassenger.setId(1L);
+        existingPassenger.setFirstName("John");
+        existingPassenger.setLastName("Bob");
+        existingPassenger.setEmail("johnbob@example.com");
+        existingPassenger.setPhone("1234567890");
+        existingPassenger.setPassportCode("123ASD");
+
+        Passenger updatedInput = new Passenger();
+        updatedInput.setFirstName("Jane");
+        updatedInput.setLastName("Smith");
+        updatedInput.setEmail("janesmith@example.com");
+        updatedInput.setPhone("9999999999");
+        updatedInput.setPassportCode("999XYZ");
+
+        Passenger savedPassenger = new Passenger();
+        savedPassenger.setId(1L);
+        savedPassenger.setFirstName("Jane");
+        savedPassenger.setLastName("Smith");
+        savedPassenger.setEmail("janesmith@example.com");
+        savedPassenger.setPhone("9999999999");
+        savedPassenger.setPassportCode("999XYZ");
+
+        when(passengerRepository.findById(1L))
+                .thenReturn(Optional.of(existingPassenger));
+
+        when(passengerRepository.save(any(Passenger.class)))
+                .thenReturn(savedPassenger);
+
+        PassengerDTO result = passengerService.updatePassenger(1L, updatedInput);
+
+        assertNotNull(result);
+        assertEquals("Jane", result.getFirstName());
+        assertEquals("Smith", result.getLastName());
+        assertEquals("janesmith@example.com", result.getEmail());
+        assertEquals("9999999999", result.getPhone());
+        assertEquals("999XYZ", result.getPassportCode());
+
+        verify(passengerRepository, times(1)).findById(1L);
+        verify(passengerRepository, times(1)).save(any(Passenger.class));
     }
 
     @Test

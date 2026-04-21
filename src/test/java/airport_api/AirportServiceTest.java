@@ -1,5 +1,6 @@
 package airport_api;
 
+import airport_api.dto.AirportDTO;
 import airport_api.entity.Airport;
 import airport_api.repository.AirportRepository;
 import airport_api.exception.ResourceNotFoundException;
@@ -47,6 +48,33 @@ public class AirportServiceTest {
         var result = airportService.getAirportById(1L);
 
         assertEquals("YYT", result.getAirportCode());
+    }
+
+    @Test
+    void shouldUpdateAirport() {
+
+        Airport existing = new Airport();
+        existing.setId(1L);
+        existing.setAirportCode("OLD");
+        existing.setCity("Old City");
+
+        when(airportRepository.findById(1L)).thenReturn(Optional.of(existing));
+
+        Airport updated = new Airport();
+        updated.setId(1L);
+        updated.setAirportCode("NEW");
+        updated.setCity("New City");
+
+        when(airportRepository.save(any(Airport.class))).thenReturn(updated);
+
+        AirportDTO result = airportService.updateAirport(1L, updated);
+
+        assertNotNull(result);
+        assertEquals("NEW", result.getAirportCode());
+        assertEquals("New City", result.getCity());
+
+        verify(airportRepository, times(1)).findById(1L);
+        verify(airportRepository, times(1)).save(any(Airport.class));
     }
 
     @Test

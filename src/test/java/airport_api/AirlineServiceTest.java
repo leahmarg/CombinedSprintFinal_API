@@ -1,5 +1,6 @@
 package airport_api;
 
+import airport_api.dto.AirlineDTO;
 import airport_api.entity.Airline;
 import airport_api.repository.AirlineRepository;
 import airport_api.service.AirlineService;
@@ -46,6 +47,30 @@ public class AirlineServiceTest {
         when(airlineRepository.findById(1L)).thenReturn(Optional.of(airline));
 
         assertNotNull(airlineService.getAirlineById(1L));
+    }
+
+    @Test
+    void shouldUpdateAirline() {
+
+        Airline existing = new Airline();
+        existing.setId(1L);
+        existing.setAirlineName("Old Airline");
+
+        when(airlineRepository.findById(1L)).thenReturn(Optional.of(existing));
+
+        Airline updated = new Airline();
+        updated.setId(1L);
+        updated.setAirlineName("New Airline");
+
+        when(airlineRepository.save(any(Airline.class))).thenReturn(updated);
+
+        AirlineDTO result = airlineService.updateAirline(1L, updated);
+
+        assertNotNull(result);
+        assertEquals("New Airline", result.getAirlineName());
+
+        verify(airlineRepository, times(1)).findById(1L);
+        verify(airlineRepository, times(1)).save(any(Airline.class));
     }
 
     @Test
