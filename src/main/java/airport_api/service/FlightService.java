@@ -102,10 +102,15 @@ public class FlightService {
 
     // CREATE
     public FlightDTO createFlight(Flight flight) {
+
         validateFlight(flight);
 
         Flight saved = flightRepository.save(flight);
-        return mapToDTO(saved);
+
+        Flight fullFlight = flightRepository.findById(saved.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Flight not found"));
+
+        return mapToDTO(fullFlight);
     }
 
     // GET ALL
