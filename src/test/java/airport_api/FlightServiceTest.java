@@ -2,6 +2,7 @@ package airport_api;
 
 import airport_api.dto.FlightRequestDTO;
 import airport_api.entity.*;
+import airport_api.exception.ResourceNotFoundException;
 import airport_api.repository.*;
 import airport_api.service.FlightService;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +44,6 @@ class FlightServiceTest {
     @Test
     void shouldCreateFlight() {
 
-        // ===== DTO INPUT =====
         FlightRequestDTO dto = new FlightRequestDTO();
         dto.setFlightNumber("AC123");
         dto.setDepartureTime(LocalDateTime.now());
@@ -52,8 +52,8 @@ class FlightServiceTest {
         dto.setAircraftId(1L);
         dto.setAirlineId(1L);
         dto.setGateId(1L);
+        dto.setStatus("SCHEDULED");
 
-        // ===== MOCK ENTITIES =====
         Airport airport1 = new Airport();
         airport1.setId(1L);
         airport1.setAirportCode("YYZ");
@@ -74,14 +74,12 @@ class FlightServiceTest {
         gate.setId(1L);
         gate.setGateNumber("A1");
 
-        // ===== MOCK REPOSITORY LOOKUPS =====
         when(airportRepository.findById(1L)).thenReturn(Optional.of(airport1));
         when(airportRepository.findById(2L)).thenReturn(Optional.of(airport2));
         when(aircraftRepository.findById(1L)).thenReturn(Optional.of(aircraft));
         when(airlineRepository.findById(1L)).thenReturn(Optional.of(airline));
         when(gateRepository.findById(1L)).thenReturn(Optional.of(gate));
 
-        // ===== MOCK SAVE =====
         Flight savedFlight = new Flight();
         savedFlight.setId(100L);
         savedFlight.setFlightNumber("AC123");
@@ -91,23 +89,24 @@ class FlightServiceTest {
         savedFlight.setAircraft(aircraft);
         savedFlight.setAirline(airline);
         savedFlight.setGate(gate);
+        savedFlight.setStatus(FlightStatus.SCHEDULED);
 
         when(flightRepository.save(any(Flight.class))).thenReturn(savedFlight);
 
-        // ===== EXECUTE =====
         var result = flightService.createFlight(dto);
 
-        // ===== ASSERT =====
         assertNotNull(result);
         assertEquals("AC123", result.getFlightNumber());
         assertEquals("YYZ", result.getDepartureAirportCode());
         assertEquals("JFK", result.getArrivalAirportCode());
+        assertEquals("SCHEDULED", result.getStatus());
 
         verify(flightRepository, times(1)).save(any(Flight.class));
     }
 
     @Test
     void shouldGetFlightById() {
+
         Flight flight = new Flight();
         flight.setId(1L);
         flight.setFlightNumber("AC123");
@@ -117,19 +116,21 @@ class FlightServiceTest {
         var result = flightService.getFlightById(1L);
 
         assertEquals("AC123", result.getFlightNumber());
+        verify(flightRepository, times(1)).findById(1L);
     }
 
     @Test
     void shouldThrowWhenFlightNotFound() {
+
         when(flightRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> {
-            flightService.getFlightById(1L);
-        });
+        assertThrows(ResourceNotFoundException.class,
+                () -> flightService.getFlightById(1L));
     }
 
     @Test
     void shouldDeleteFlight() {
+
         doNothing().when(flightRepository).deleteById(1L);
 
         flightService.deleteFlight(1L);

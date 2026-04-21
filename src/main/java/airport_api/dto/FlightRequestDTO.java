@@ -29,4 +29,6 @@ public class FlightRequestDTO {
 
     @NotNull
     private Long gateId;
+
+    private String status;
 }

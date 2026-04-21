@@ -32,6 +32,5 @@ public class FlightDTO {
     @NotBlank(message = "Gate number is required")
     private String gateNumber;
 
-    @NotBlank(message = "Status is required")
     private String status;
 }

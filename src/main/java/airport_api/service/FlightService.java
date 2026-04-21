@@ -61,8 +61,9 @@ public class FlightService {
             dto.setGateNumber(flight.getGate().getGateNumber());
         }
 
-        // PLACEHOLDER
-        dto.setStatus("SCHEDULED");
+        if (flight.getStatus() != null) {
+            dto.setStatus(flight.getStatus().name());
+        }
 
         return dto;
     }
@@ -95,6 +96,14 @@ public class FlightService {
 
         if (dto.getGateId() == null) {
             throw new ResourceNotFoundException("Gate is required");
+        }
+
+        if (dto.getStatus() != null) {
+            try {
+                FlightStatus.valueOf(dto.getStatus().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new ResourceNotFoundException("Invalid flight status");
+            }
         }
     }
 
@@ -130,6 +139,12 @@ public class FlightService {
         flight.setGate(
                 gateRepository.findById(dto.getGateId())
                         .orElseThrow(() -> new ResourceNotFoundException("Gate not found"))
+        );
+
+        flight.setStatus(
+                dto.getStatus() != null
+                        ? FlightStatus.valueOf(dto.getStatus().toUpperCase())
+                        : FlightStatus.SCHEDULED
         );
 
         Flight saved = flightRepository.save(flight);
@@ -197,6 +212,10 @@ public class FlightService {
                     gateRepository.findById(dto.getGateId())
                             .orElseThrow(() -> new ResourceNotFoundException("Gate not found"))
             );
+        }
+
+        if (dto.getStatus() != null) {
+            flight.setStatus(FlightStatus.valueOf(dto.getStatus().toUpperCase()));
         }
 
         Flight saved = flightRepository.save(flight);
