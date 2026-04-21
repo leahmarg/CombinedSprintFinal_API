@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class AircraftServiceTest {
@@ -35,7 +34,7 @@ public class AircraftServiceTest {
 
         var result = aircraftService.getAircraftById(1L);
 
-        verify(aircraftRepository, times(1)).save(aircraft1);
+        assertEquals("Boeing", result.getAircraftModel());
     }
 
     @Test
