@@ -42,6 +42,8 @@ public class AircraftService {
 
     // CREATE
     public AircraftDTO createAircraft(Aircraft aircraft) {
+        validateAircraft(aircraft);
+
         Aircraft saved = aircraftRepository.save(aircraft);
         return mapToDTO(saved);
     }
