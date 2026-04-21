@@ -3,7 +3,6 @@ package airport_api;
 import airport_api.entity.Airport;
 import airport_api.repository.AirportRepository;
 import airport_api.exception.ResourceNotFoundException;
-
 import airport_api.service.AirportService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,7 +53,7 @@ public class AirportServiceTest {
     void shouldThrowWhenFlightNotFound() {
         when(airportRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(ResourceNotFoundException.class, () -> {
             airportService.getAirportById(1L);
         });
     }

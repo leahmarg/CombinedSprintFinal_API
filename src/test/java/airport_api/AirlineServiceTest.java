@@ -2,9 +2,7 @@ package airport_api;
 
 import airport_api.entity.Airline;
 import airport_api.repository.AirlineRepository;
-import airport_api.repository.AirportRepository;
 import airport_api.service.AirlineService;
-import airport_api.service.AirportService;
 import airport_api.exception.ResourceNotFoundException;
 
 import org.junit.jupiter.api.BeforeEach;
