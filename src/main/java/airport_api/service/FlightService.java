@@ -167,4 +167,19 @@ public class FlightService {
     public void deleteFlight(Long id) {
         flightRepository.deleteById(id);
     }
+
+    // ARRIVAL AND DEPARTURE ENDPOINTS
+    public List<FlightDTO> getFlightsByDepartureAirport(Long airportId) {
+        return flightRepository.findByDepartureAirportId(airportId)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<FlightDTO> getFlightsByArrivalAirport(Long airportId) {
+        return flightRepository.findByArrivalAirportId(airportId)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
 }

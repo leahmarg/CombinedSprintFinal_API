@@ -46,4 +46,14 @@ public class FlightController {
         flightService.deleteFlight(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/departures/{airportId}")
+    public List<FlightDTO> getDepartures(@PathVariable Long airportId) {
+        return flightService.getFlightsByDepartureAirport(airportId);
+    }
+
+    @GetMapping("/arrivals/{airportId}")
+    public List<FlightDTO> getArrivals(@PathVariable Long airportId) {
+        return flightService.getFlightsByArrivalAirport(airportId);
+    }
 }
