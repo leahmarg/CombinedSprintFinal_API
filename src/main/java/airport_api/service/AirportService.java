@@ -34,11 +34,11 @@ public class AirportService {
     // VALIDATION
     private void validateAirport(Airport airport) {
         if (airport.getAirportName() == null || airport.getAirportName().isBlank()) {
-            throw new IllegalArgumentException("Airport name is required");
+            throw new ResourceNotFoundException("Airport name is required");
         }
 
         if (airport.getAirportCode() == null || airport.getAirportCode().isBlank()) {
-            throw new IllegalArgumentException("Airport code is required");
+            throw new ResourceNotFoundException("Airport code is required");
         }
     }
 

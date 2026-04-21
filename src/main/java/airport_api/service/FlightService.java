@@ -72,31 +72,31 @@ public class FlightService {
     private void validateFlight(Flight flight) {
 
         if (flight.getFlightNumber() == null || flight.getFlightNumber().isBlank()) {
-            throw new IllegalArgumentException("Flight number is required");
+            throw new ResourceNotFoundException("Flight number is required");
         }
 
         if (flight.getDepartureTime() == null) {
-            throw new IllegalArgumentException("Departure time is required");
+            throw new ResourceNotFoundException("Departure time is required");
         }
 
         if (flight.getDepartureAirport() == null) {
-            throw new IllegalArgumentException("Departure airport is required");
+            throw new ResourceNotFoundException("Departure airport is required");
         }
 
         if (flight.getArrivalAirport() == null) {
-            throw new IllegalArgumentException("Arrival airport is required");
+            throw new ResourceNotFoundException("Arrival airport is required");
         }
 
         if (flight.getAircraft() == null) {
-            throw new IllegalArgumentException("Aircraft is required");
+            throw new ResourceNotFoundException("Aircraft is required");
         }
 
         if (flight.getAirline() == null) {
-            throw new IllegalArgumentException("Airline is required");
+            throw new ResourceNotFoundException("Airline is required");
         }
 
         if (flight.getGate() == null) {
-            throw new IllegalArgumentException("Gate is required");
+            throw new ResourceNotFoundException("Gate is required");
         }
     }
 
@@ -166,5 +166,20 @@ public class FlightService {
     // DELETE
     public void deleteFlight(Long id) {
         flightRepository.deleteById(id);
+    }
+
+    // ARRIVAL AND DEPARTURE ENDPOINTS
+    public List<FlightDTO> getFlightsByDepartureAirport(Long airportId) {
+        return flightRepository.findByDepartureAirportId(airportId)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<FlightDTO> getFlightsByArrivalAirport(Long airportId) {
+        return flightRepository.findByArrivalAirportId(airportId)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 }

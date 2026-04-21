@@ -41,15 +41,15 @@ public class PassengerService {
     // VALIDATION
     private void validatePassenger(Passenger passenger) {
         if (passenger.getFirstName() == null || passenger.getFirstName().isBlank()) {
-            throw new IllegalArgumentException("First name is required");
+            throw new ResourceNotFoundException("First name is required");
         }
 
         if (passenger.getLastName() == null || passenger.getLastName().isBlank()) {
-            throw new IllegalArgumentException("Last name is required");
+            throw new ResourceNotFoundException("Last name is required");
         }
 
         if (passenger.getPassportCode() == null || passenger.getPassportCode().isBlank()) {
-            throw new IllegalArgumentException("Passport code is required");
+            throw new ResourceNotFoundException("Passport code is required");
         }
     }
 
