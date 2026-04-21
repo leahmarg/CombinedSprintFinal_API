@@ -1,7 +1,7 @@
 package airport_api.controller;
 
 import airport_api.dto.FlightDTO;
-import airport_api.entity.Flight;
+import airport_api.dto.FlightRequestDTO;
 import airport_api.service.FlightService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,10 @@ public class FlightController {
     }
 
     @PostMapping
-    public ResponseEntity<FlightDTO> createFlight(@Valid @RequestBody Flight flight) {
-        return ResponseEntity.ok(flightService.createFlight(flight));
+    public ResponseEntity<FlightDTO> createFlight(
+            @Valid @RequestBody FlightRequestDTO dto
+    ) {
+        return ResponseEntity.ok(flightService.createFlight(dto));
     }
 
     @GetMapping
@@ -37,9 +39,9 @@ public class FlightController {
     @PutMapping("/{id}")
     public ResponseEntity<FlightDTO> updateFlight(
             @PathVariable Long id,
-            @Valid @RequestBody Flight flight
+            @Valid @RequestBody FlightRequestDTO dto
     ) {
-        return ResponseEntity.ok(flightService.updateFlight(id, flight));
+        return ResponseEntity.ok(flightService.updateFlight(id, dto));
     }
 
     @DeleteMapping("/{id}")
@@ -48,13 +50,14 @@ public class FlightController {
         return ResponseEntity.noContent().build();
     }
 
+    // ARRIVALS AND DEPARTURES
     @GetMapping("/departures/{airportId}")
-    public List<FlightDTO> getDepartures(@PathVariable Long airportId) {
-        return flightService.getFlightsByDepartureAirport(airportId);
+    public ResponseEntity<List<FlightDTO>> getDepartures(@PathVariable Long airportId) {
+        return ResponseEntity.ok(flightService.getFlightsByDepartureAirport(airportId));
     }
 
     @GetMapping("/arrivals/{airportId}")
-    public List<FlightDTO> getArrivals(@PathVariable Long airportId) {
-        return flightService.getFlightsByArrivalAirport(airportId);
+    public ResponseEntity<List<FlightDTO>> getArrivals(@PathVariable Long airportId) {
+        return ResponseEntity.ok(flightService.getFlightsByArrivalAirport(airportId));
     }
 }

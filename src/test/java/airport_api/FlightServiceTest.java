@@ -1,5 +1,6 @@
 package airport_api;
 
+import airport_api.dto.FlightRequestDTO;
 import airport_api.entity.*;
 import airport_api.repository.*;
 import airport_api.service.FlightService;
@@ -41,6 +42,18 @@ class FlightServiceTest {
 
     @Test
     void shouldCreateFlight() {
+
+        // ===== DTO INPUT =====
+        FlightRequestDTO dto = new FlightRequestDTO();
+        dto.setFlightNumber("AC123");
+        dto.setDepartureTime(LocalDateTime.now());
+        dto.setDepartureAirportId(1L);
+        dto.setArrivalAirportId(2L);
+        dto.setAircraftId(1L);
+        dto.setAirlineId(1L);
+        dto.setGateId(1L);
+
+        // ===== MOCK ENTITIES =====
         Airport airport1 = new Airport();
         airport1.setId(1L);
         airport1.setAirportCode("YYZ");
@@ -49,35 +62,48 @@ class FlightServiceTest {
         airport2.setId(2L);
         airport2.setAirportCode("JFK");
 
-        Aircraft aircraft1 = new Aircraft();
-        aircraft1.setId(1L);
-        aircraft1.setAircraftModel("Boeing 737");
+        Aircraft aircraft = new Aircraft();
+        aircraft.setId(1L);
+        aircraft.setAircraftModel("Boeing 737");
 
-        Airline airline1 = new Airline();
-        airline1.setId(1L);
-        airline1.setAirlineName("Air Canada");
+        Airline airline = new Airline();
+        airline.setId(1L);
+        airline.setAirlineName("Air Canada");
 
-        Gate gate1 = new Gate();
-        gate1.setId(1L);
-        gate1.setGateNumber("A1");
+        Gate gate = new Gate();
+        gate.setId(1L);
+        gate.setGateNumber("A1");
 
-        Flight flight = new Flight();
-        flight.setFlightNumber("AC123");
-        flight.setDepartureTime(LocalDateTime.now());
-        flight.setDepartureAirport(airport1);
-        flight.setArrivalAirport(airport2);
-        flight.setAircraft(aircraft1);
-        flight.setAirline(airline1);
-        flight.setGate(gate1);
+        // ===== MOCK REPOSITORY LOOKUPS =====
+        when(airportRepository.findById(1L)).thenReturn(Optional.of(airport1));
+        when(airportRepository.findById(2L)).thenReturn(Optional.of(airport2));
+        when(aircraftRepository.findById(1L)).thenReturn(Optional.of(aircraft));
+        when(airlineRepository.findById(1L)).thenReturn(Optional.of(airline));
+        when(gateRepository.findById(1L)).thenReturn(Optional.of(gate));
 
-        when(flightRepository.save(any(Flight.class))).thenReturn(flight);
+        // ===== MOCK SAVE =====
+        Flight savedFlight = new Flight();
+        savedFlight.setId(100L);
+        savedFlight.setFlightNumber("AC123");
+        savedFlight.setDepartureTime(dto.getDepartureTime());
+        savedFlight.setDepartureAirport(airport1);
+        savedFlight.setArrivalAirport(airport2);
+        savedFlight.setAircraft(aircraft);
+        savedFlight.setAirline(airline);
+        savedFlight.setGate(gate);
 
-        var result = flightService.createFlight(flight);
+        when(flightRepository.save(any(Flight.class))).thenReturn(savedFlight);
 
+        // ===== EXECUTE =====
+        var result = flightService.createFlight(dto);
+
+        // ===== ASSERT =====
         assertNotNull(result);
         assertEquals("AC123", result.getFlightNumber());
+        assertEquals("YYZ", result.getDepartureAirportCode());
+        assertEquals("JFK", result.getArrivalAirportCode());
 
-        verify(flightRepository, times(1)).save(flight);
+        verify(flightRepository, times(1)).save(any(Flight.class));
     }
 
     @Test
