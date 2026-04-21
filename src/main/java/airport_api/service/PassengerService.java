@@ -18,7 +18,6 @@ public class PassengerService {
         this.passengerRepository = passengerRepository;
     }
 
-    // ENTITY TO DTO
     private PassengerDTO mapToDTO(Passenger passenger) {
 
         PassengerDTO dto = new PassengerDTO();
@@ -38,7 +37,6 @@ public class PassengerService {
         return dto;
     }
 
-    // VALIDATION
     private void validatePassenger(Passenger passenger) {
         if (passenger.getFirstName() == null || passenger.getFirstName().isBlank()) {
             throw new ResourceNotFoundException("First name is required");
@@ -53,7 +51,6 @@ public class PassengerService {
         }
     }
 
-    // CREATE
     public PassengerDTO createPassenger(Passenger passenger) {
         validatePassenger(passenger);
 
@@ -61,7 +58,6 @@ public class PassengerService {
         return mapToDTO(saved);
     }
 
-    // GET ALL
     public List<PassengerDTO> getAllPassengers() {
         return passengerRepository.findAll()
                 .stream()
@@ -69,7 +65,6 @@ public class PassengerService {
                 .collect(Collectors.toList());
     }
 
-    // GET BY ID
     public PassengerDTO getPassengerById(Long id) {
         Passenger passenger = passengerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Passenger not found"));
@@ -77,7 +72,6 @@ public class PassengerService {
         return mapToDTO(passenger);
     }
 
-    // UPDATE
     public PassengerDTO updatePassenger(Long id, Passenger updated) {
         Passenger passenger = passengerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Passenger not found"));

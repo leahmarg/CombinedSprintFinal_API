@@ -18,7 +18,6 @@ public class AirlineService {
         this.airlineRepository = airlineRepository;
     }
 
-    // ENTITY TO DTO
     private AirlineDTO mapToDTO(Airline airline) {
         AirlineDTO dto = new AirlineDTO();
 
@@ -30,7 +29,6 @@ public class AirlineService {
         return dto;
     }
 
-    // VALIDATION
     private void validateAirline(Airline airline) {
         if (airline.getAirlineName() == null || airline.getAirlineName().isBlank()) {
             throw new ResourceNotFoundException("Airline name is required");
@@ -41,7 +39,6 @@ public class AirlineService {
         }
     }
 
-    // CREATE
     public AirlineDTO createAirline(Airline airline) {
         validateAirline(airline);
 
@@ -49,7 +46,6 @@ public class AirlineService {
         return mapToDTO(saved);
     }
 
-    // GET ALL
     public List<AirlineDTO> getAllAirlines() {
         return airlineRepository.findAll()
                 .stream()
@@ -57,7 +53,6 @@ public class AirlineService {
                 .collect(Collectors.toList());
     }
 
-    // GET BY ID
     public AirlineDTO getAirlineById(Long id) {
         Airline airline = airlineRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Airline not found"));
@@ -65,7 +60,6 @@ public class AirlineService {
         return mapToDTO(airline);
     }
 
-    // UPDATE
     public AirlineDTO updateAirline(Long id, Airline updatedAirline) {
         Airline airline = airlineRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Airline not found"));
@@ -86,7 +80,6 @@ public class AirlineService {
         return mapToDTO(saved);
     }
 
-    // DELETE
     public void deleteAirline(Long id) {
         airlineRepository.deleteById(id);
     }

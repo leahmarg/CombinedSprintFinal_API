@@ -18,7 +18,6 @@ public class AirportService {
         this.airportRepository = airportRepository;
     }
 
-    // ENTITY TO DTO
     private AirportDTO mapToDTO(Airport airport) {
         AirportDTO dto = new AirportDTO();
 
@@ -31,7 +30,6 @@ public class AirportService {
         return dto;
     }
 
-    // VALIDATION
     private void validateAirport(Airport airport) {
         if (airport.getAirportName() == null || airport.getAirportName().isBlank()) {
             throw new ResourceNotFoundException("Airport name is required");
@@ -42,7 +40,6 @@ public class AirportService {
         }
     }
 
-    // CREATE
     public AirportDTO createAirport(Airport airport) {
         validateAirport(airport);
 
@@ -50,7 +47,6 @@ public class AirportService {
         return mapToDTO(saved);
     }
 
-    // GET ALL
     public List<AirportDTO> getAllAirports() {
         return airportRepository.findAll()
                 .stream()
@@ -58,7 +54,6 @@ public class AirportService {
                 .collect(Collectors.toList());
     }
 
-    // GET BY ID
     public AirportDTO getAirportById(Long id) {
         Airport airport = airportRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
@@ -66,7 +61,6 @@ public class AirportService {
         return mapToDTO(airport);
     }
 
-    // UPDATE
     public AirportDTO updateAirport(Long id, Airport updatedAirport) {
         Airport airport = airportRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
@@ -91,7 +85,6 @@ public class AirportService {
         return mapToDTO(saved);
     }
 
-    // DELETE
     public void deleteAirport(Long id) {
         airportRepository.deleteById(id);
     }
