@@ -33,11 +33,11 @@ public class AirlineService {
     // VALIDATION
     private void validateAirline(Airline airline) {
         if (airline.getAirlineName() == null || airline.getAirlineName().isBlank()) {
-            throw new IllegalArgumentException("Airline name is required");
+            throw new ResourceNotFoundException("Airline name is required");
         }
 
         if (airline.getAirlineAbrev() == null || airline.getAirlineAbrev().isBlank()) {
-            throw new IllegalArgumentException("Airline abbreviation is required");
+            throw new ResourceNotFoundException("Airline abbreviation is required");
         }
     }
 

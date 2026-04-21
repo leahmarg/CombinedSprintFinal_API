@@ -36,11 +36,11 @@ public class GateService {
     // VALIDATION
     private void validateGate(Gate gate) {
         if (gate.getGateNumber() == null || gate.getGateNumber().isBlank()) {
-            throw new IllegalArgumentException("Gate number is required");
+            throw new ResourceNotFoundException("Gate number is required");
         }
 
         if (gate.getAirport() == null) {
-            throw new IllegalArgumentException("Airport is required for a gate");
+            throw new ResourceNotFoundException("Airport is required for a gate");
         }
     }
 

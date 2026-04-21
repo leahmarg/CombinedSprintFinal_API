@@ -32,11 +32,11 @@ public class AircraftService {
     // VALIDATION
     private void validateAircraft(Aircraft aircraft) {
         if (aircraft.getAircraftModel() == null || aircraft.getAircraftModel().isBlank()) {
-            throw new IllegalArgumentException("Aircraft model is required");
+            throw new ResourceNotFoundException("Aircraft model is required");
         }
 
         if (aircraft.getAircraftCapacity() == null) {
-            throw new IllegalArgumentException("Aircraft capacity is required");
+            throw new ResourceNotFoundException("Aircraft capacity is required");
         }
     }
 
@@ -67,7 +67,7 @@ public class AircraftService {
     // UPDATE
     public AircraftDTO updateAircraft(Long id, Aircraft updatedAircraft) {
         Aircraft aircraft = aircraftRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Aircraft not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Aircraft not found"));
 
         if (updatedAircraft.getAircraftModel() != null) {
             aircraft.setAircraftModel(updatedAircraft.getAircraftModel());
