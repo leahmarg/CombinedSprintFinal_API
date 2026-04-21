@@ -3,6 +3,7 @@ package airport_api.controller;
 import airport_api.dto.GateDTO;
 import airport_api.entity.Gate;
 import airport_api.service.GateService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class GateController {
     }
 
     @PostMapping
-    public ResponseEntity<GateDTO> createGate(@RequestBody Gate gate) {
+    public ResponseEntity<GateDTO> createGate(@Valid @RequestBody Gate gate) {
         return ResponseEntity.ok(gateService.createGate(gate));
     }
 
@@ -36,7 +37,7 @@ public class GateController {
     @PutMapping("/{id}")
     public ResponseEntity<GateDTO> updateGate(
             @PathVariable Long id,
-            @RequestBody Gate gate
+            @Valid @RequestBody Gate gate
     ) {
         return ResponseEntity.ok(gateService.updateGate(id, gate));
     }
