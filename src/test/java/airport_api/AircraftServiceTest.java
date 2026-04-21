@@ -56,4 +56,13 @@ public class AircraftServiceTest {
             aircraftService.getAircraftById(1L);
         });
     }
+
+    @Test
+    void shouldDeleteAircraft() {
+        doNothing().when(aircraftRepository).deleteById(1L);
+
+        aircraftService.deleteAircraft(1L);
+
+        verify(aircraftRepository, times(1)).deleteById(1L);
+    }
 }
