@@ -12,27 +12,32 @@ A Spring Boot REST API for managing an airport system including airports, airlin
 - Jakarta Validation
 - Maven
 - Postman
+- MySQL (Docker)
 
 ---
 
 ## ▶️ How to Run
 
-Clone the project:
-git clone <repo-url>
+### Clone the project:
+git clone https://github.com/leahmarg/CombinedSprintFinal_API
 
-Run the application:
-./mvnw spring-boot:run
+### Build project
+mvn clean package -DskipTests
 
-Open in browser:
+### Run with Docker
+docker compose up --build
+
+### Access API
 http://localhost:8080
 
 ---
 
 ## 🗄️ Database
 
-- Spring Data JPA (Hibernate)
-- Configurable via application.properties
-- Supports H2 or MySQL
+- MySQL running in Docker  
+- Spring Data JPA (Hibernate) handles schema creation  
+- Configured via application.properties  
+- Database name: airport_db
 
 ---
 
@@ -53,8 +58,6 @@ Create entities in this order:
 4. Gates
 5. Flights
 6. Passengers
-
-(Required due to relationships)
 
 ---
 
@@ -104,6 +107,14 @@ Flights:
 Passengers:
 - Assign passengers to flights
 - Manage passenger details
+
+---
+
+## 🔐 AUTH
+If security is enabled:
+Username: admin  
+Password: admin123  
+Basic Auth (Postman)
 
 ---
 
