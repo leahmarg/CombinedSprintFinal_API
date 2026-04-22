@@ -23,7 +23,7 @@ public class AirlineService {
 
         dto.setId(airline.getId());
         dto.setAirlineName(airline.getAirlineName());
-        dto.setAirlineAbrev(airline.getAirlineAbrev());
+        dto.setAirlineCode(airline.getAirlineCode());
         dto.setCountry(airline.getCountry());
 
         return dto;
@@ -34,7 +34,7 @@ public class AirlineService {
             throw new ResourceNotFoundException("Airline name is required");
         }
 
-        if (airline.getAirlineAbrev() == null || airline.getAirlineAbrev().isBlank()) {
+        if (airline.getAirlineCode() == null || airline.getAirlineCode().isBlank()) {
             throw new ResourceNotFoundException("Airline abbreviation is required");
         }
     }
@@ -68,8 +68,8 @@ public class AirlineService {
             airline.setAirlineName(updatedAirline.getAirlineName());
         }
 
-        if (updatedAirline.getAirlineAbrev() != null) {
-            airline.setAirlineAbrev(updatedAirline.getAirlineAbrev());
+        if (updatedAirline.getAirlineCode() != null) {
+            airline.setAirlineCode(updatedAirline.getAirlineCode());
         }
 
         if (updatedAirline.getCountry() != null) {

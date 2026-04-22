@@ -12,7 +12,7 @@ public class AirlineDTO {
     private String airlineName;
 
     @NotBlank(message = "Airline abbreviation is required")
-    private String airlineAbrev;
+    private String airlineCode;
 
     @NotBlank(message = "Country is required")
     private String country;
