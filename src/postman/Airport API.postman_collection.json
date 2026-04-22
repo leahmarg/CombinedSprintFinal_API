@@ -1,0 +1,691 @@
+{
+  "info": {
+    "_postman_id": "d1a57bf6-9796-4861-9b0a-66d9533cd12b",
+    "name": "Airport API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53795192",
+    "_collection_link": "https://go.postman.co/collection/53795192-d1a57bf6-9796-4861-9b0a-66d9533cd12b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "AIRPORT",
+      "item": [
+        {
+          "name": "CREATE Airport YYZ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"airportCode\": \"YYZ\", \"airportName\": \"Toronto Pearson\", \"city\": \"Toronto\", \"country\": \"Canada\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/airports",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Airport JFK",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"airportCode\": \"JFK\", \"airportName\": \"John F Kennedy Intl\", \"city\": \"New York\", \"country\": \"USA\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/airports",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ALL Airports",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/airports",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Airport 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/airports/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airports",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Airport 1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"airportCode\": \"YYZ\", \"airportName\": \"Toronto Pearson Updated\", \"city\": \"Toronto\", \"country\": \"Canada\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/airports/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airports",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Airport 2",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/airports/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airports",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AIRLINE",
+      "item": [
+        {
+          "name": "CREATE Airline",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"airlineName\": \"Air Canada\", \"airlineCode\": \"AC\", \"country\": \"Canada\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/airlines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airlines"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ALL Airlines",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/airlines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airlines"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Airline 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/airlines/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airlines",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Airline 1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"airlineName\": \"Air Canada Updated\", \"airlineCode\": \"AC\", \"country\": \"Canada\" }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/airlines/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airlines",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Airline 1",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/airlines/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "airlines",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AIRCRAFT",
+      "item": [
+        {
+          "name": "CREATE Aircraft",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"aircraftModel\": \"Boeing 737\", \"aircraftCapacity\": 180 }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/aircraft",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "aircraft"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ALL Aircraft",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/aircraft",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "aircraft"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Aircraft by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/aircraft/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "aircraft",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Aircraft 1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"aircraftModel\": \"Airbus A320\", \"aircraftCapacity\": 220 }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/aircraft/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "aircraft",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Aircraft 1",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/aircraft/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "aircraft",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "GATE",
+      "item": [
+        {
+          "name": "CREATE Gate",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"gateNumber\": \"A1\", \"airport\": { \"id\": 1 } }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/gates",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gates"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ALL Gates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/gates",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gates"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Gate 1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"gateNumber\": \"A1\", \"airport\": { \"id\": 2 } }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/gates/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gates",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Gate 1",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/gates/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gates",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "FLIGHT",
+      "item": [
+        {
+          "name": "CREATE Flight",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"flightNumber\": \"AC123\", \"departureTime\": \"2026-04-21T10:00:00\", \"departureAirportId\": 1, \"arrivalAirportId\": 2, \"aircraftId\": 1, \"airlineId\": 1, \"gateId\": 1 }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/flights",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "flights"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ALL Flights",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/flights",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "flights"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Flight 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/flights/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "flights",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Flight 1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"flightNumber\": \"AC999\", \"departureTime\": \"2026-04-22T10:00:00\", \"departureAirportId\": 1, \"arrivalAirportId\": 2, \"aircraftId\": 1, \"airlineId\": 1, \"gateId\": 1 }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/flights/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "flights",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Flight 1",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/flights/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "flights",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "PASSENGER",
+      "item": [
+        {
+          "name": "CREATE Passenger",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"john@email.com\", \"phone\": \"9021234567\", \"passportCode\": \"CA123\", \"flightId\": 1 }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/passengers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "passengers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET ALL Passengers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/passengers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "passengers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Passenger 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/passengers/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "passengers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Passenger 1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"firstName\": \"Johnny\", \"lastName\": \"Doe\", \"email\": \"johnny@email.com\", \"phone\": \"9029999999\", \"passportCode\": \"CA999\", \"flightId\": 1 }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/passengers/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "passengers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Passenger 1",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/passengers/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "passengers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
