@@ -1,5 +1,6 @@
 package airport_api;
 
+import airport_api.dto.GateDTO;
 import airport_api.entity.Airport;
 import airport_api.entity.Gate;
 import airport_api.exception.ResourceNotFoundException;
@@ -39,6 +40,30 @@ public class GateServiceTest {
         var result = gateService.createGate(gate);
 
         assertEquals("A1", result.getGateNumber());
+    }
+
+    @Test
+    void shouldUpdateGate() {
+
+        Gate existing = new Gate();
+        existing.setId(1L);
+        existing.setGateNumber("A1");
+
+        when(gateRepository.findById(1L)).thenReturn(Optional.of(existing));
+
+        Gate updated = new Gate();
+        updated.setId(1L);
+        updated.setGateNumber("B2");
+
+        when(gateRepository.save(any(Gate.class))).thenReturn(updated);
+
+        GateDTO result = gateService.updateGate(1L, updated);
+
+        assertNotNull(result);
+        assertEquals("B2", result.getGateNumber());
+
+        verify(gateRepository, times(1)).findById(1L);
+        verify(gateRepository, times(1)).save(any(Gate.class));
     }
 
     @Test

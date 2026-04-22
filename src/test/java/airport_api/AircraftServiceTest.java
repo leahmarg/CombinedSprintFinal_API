@@ -1,5 +1,6 @@
 package airport_api;
 
+import airport_api.dto.AircraftDTO;
 import airport_api.entity.Aircraft;
 import airport_api.exception.ResourceNotFoundException;
 import airport_api.repository.AircraftRepository;
@@ -45,6 +46,30 @@ public class AircraftServiceTest {
         when(aircraftRepository.findById(1L)).thenReturn(Optional.of(aircraft));
 
         assertNotNull(aircraftService.getAircraftById(1L));
+    }
+
+    @Test
+    void shouldUpdateAircraft() {
+
+        Aircraft existing = new Aircraft();
+        existing.setId(1L);
+        existing.setAircraftModel("Old Model");
+
+        when(aircraftRepository.findById(1L)).thenReturn(Optional.of(existing));
+
+        Aircraft updated = new Aircraft();
+        updated.setId(1L);
+        updated.setAircraftModel("Boeing 787");
+
+        when(aircraftRepository.save(any(Aircraft.class))).thenReturn(updated);
+
+        AircraftDTO result = aircraftService.updateAircraft(1L, updated);
+
+        assertNotNull(result);
+        assertEquals("Boeing 787", result.getAircraftModel());
+
+        verify(aircraftRepository, times(1)).findById(1L);
+        verify(aircraftRepository, times(1)).save(any(Aircraft.class));
     }
 
     @Test

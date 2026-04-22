@@ -1,6 +1,7 @@
 package airport_api.service;
 
 import airport_api.dto.FlightDTO;
+import airport_api.dto.FlightRequestDTO;
 import airport_api.entity.*;
 import airport_api.exception.ResourceNotFoundException;
 import airport_api.repository.*;
@@ -32,7 +33,6 @@ public class FlightService {
         this.gateRepository = gateRepository;
     }
 
-    // Entity to DTO
     private FlightDTO mapToDTO(Flight flight) {
 
         FlightDTO dto = new FlightDTO();
@@ -41,7 +41,6 @@ public class FlightService {
         dto.setFlightNumber(flight.getFlightNumber());
         dto.setDepartureTime(flight.getDepartureTime());
 
-        // Null checks
         if (flight.getDepartureAirport() != null) {
             dto.setDepartureAirportCode(flight.getDepartureAirport().getAirportCode());
         }
@@ -62,53 +61,97 @@ public class FlightService {
             dto.setGateNumber(flight.getGate().getGateNumber());
         }
 
-        // PLACEHOLDER ATM
-        dto.setStatus("SCHEDULED");
+        if (flight.getStatus() != null) {
+            dto.setStatus(flight.getStatus().name());
+        }
 
         return dto;
     }
 
-    // VALIDATION
-    private void validateFlight(Flight flight) {
+    private void validateFlightRequest(FlightRequestDTO dto) {
 
-        if (flight.getFlightNumber() == null || flight.getFlightNumber().isBlank()) {
+        if (dto.getFlightNumber() == null || dto.getFlightNumber().isBlank()) {
             throw new ResourceNotFoundException("Flight number is required");
         }
 
-        if (flight.getDepartureTime() == null) {
+        if (dto.getDepartureTime() == null) {
             throw new ResourceNotFoundException("Departure time is required");
         }
 
-        if (flight.getDepartureAirport() == null) {
+        if (dto.getDepartureAirportId() == null) {
             throw new ResourceNotFoundException("Departure airport is required");
         }
 
-        if (flight.getArrivalAirport() == null) {
+        if (dto.getArrivalAirportId() == null) {
             throw new ResourceNotFoundException("Arrival airport is required");
         }
 
-        if (flight.getAircraft() == null) {
+        if (dto.getAircraftId() == null) {
             throw new ResourceNotFoundException("Aircraft is required");
         }
 
-        if (flight.getAirline() == null) {
+        if (dto.getAirlineId() == null) {
             throw new ResourceNotFoundException("Airline is required");
         }
 
-        if (flight.getGate() == null) {
+        if (dto.getGateId() == null) {
             throw new ResourceNotFoundException("Gate is required");
+        }
+
+        if (dto.getStatus() != null) {
+            try {
+                FlightStatus.valueOf(dto.getStatus().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new ResourceNotFoundException("Invalid flight status");
+            }
         }
     }
 
-    // CREATE
-    public FlightDTO createFlight(Flight flight) {
-        validateFlight(flight);
+    public FlightDTO createFlight(FlightRequestDTO dto) {
+
+        validateFlightRequest(dto);
+
+        Flight flight = new Flight();
+
+        flight.setFlightNumber(dto.getFlightNumber());
+        flight.setDepartureTime(dto.getDepartureTime());
+
+        flight.setDepartureAirport(
+                airportRepository.findById(dto.getDepartureAirportId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Departure airport not found"))
+        );
+
+        flight.setArrivalAirport(
+                airportRepository.findById(dto.getArrivalAirportId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Arrival airport not found"))
+        );
+
+        flight.setAircraft(
+                aircraftRepository.findById(dto.getAircraftId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Aircraft not found"))
+        );
+
+        flight.setAirline(
+                airlineRepository.findById(dto.getAirlineId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Airline not found"))
+        );
+
+        flight.setGate(
+                gateRepository.findById(dto.getGateId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Gate not found"))
+        );
+
+        flight.setStatus(
+                dto.getStatus() != null
+                        ? FlightStatus.valueOf(dto.getStatus().toUpperCase())
+                        : FlightStatus.SCHEDULED
+        );
 
         Flight saved = flightRepository.save(flight);
+
         return mapToDTO(saved);
     }
 
-    // GET ALL
     public List<FlightDTO> getAllFlights() {
         return flightRepository.findAll()
                 .stream()
@@ -116,7 +159,6 @@ public class FlightService {
                 .collect(Collectors.toList());
     }
 
-    // GET BY ID
     public FlightDTO getFlightById(Long id) {
         Flight flight = flightRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Flight not found"));
@@ -124,38 +166,56 @@ public class FlightService {
         return mapToDTO(flight);
     }
 
-    // UPDATE
-    public FlightDTO updateFlight(Long id, Flight updatedFlight) {
+    public FlightDTO updateFlight(Long id, FlightRequestDTO dto) {
 
         Flight flight = flightRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Flight not found"));
 
-        if (updatedFlight.getFlightNumber() != null) {
-            flight.setFlightNumber(updatedFlight.getFlightNumber());
+        if (dto.getFlightNumber() != null) {
+            flight.setFlightNumber(dto.getFlightNumber());
         }
 
-        if (updatedFlight.getDepartureTime() != null) {
-            flight.setDepartureTime(updatedFlight.getDepartureTime());
+        if (dto.getDepartureTime() != null) {
+            flight.setDepartureTime(dto.getDepartureTime());
         }
 
-        if (updatedFlight.getDepartureAirport() != null) {
-            flight.setDepartureAirport(updatedFlight.getDepartureAirport());
+        if (dto.getDepartureAirportId() != null) {
+            flight.setDepartureAirport(
+                    airportRepository.findById(dto.getDepartureAirportId())
+                            .orElseThrow(() -> new ResourceNotFoundException("Departure airport not found"))
+            );
         }
 
-        if (updatedFlight.getArrivalAirport() != null) {
-            flight.setArrivalAirport(updatedFlight.getArrivalAirport());
+        if (dto.getArrivalAirportId() != null) {
+            flight.setArrivalAirport(
+                    airportRepository.findById(dto.getArrivalAirportId())
+                            .orElseThrow(() -> new ResourceNotFoundException("Arrival airport not found"))
+            );
         }
 
-        if (updatedFlight.getAircraft() != null) {
-            flight.setAircraft(updatedFlight.getAircraft());
+        if (dto.getAircraftId() != null) {
+            flight.setAircraft(
+                    aircraftRepository.findById(dto.getAircraftId())
+                            .orElseThrow(() -> new ResourceNotFoundException("Aircraft not found"))
+            );
         }
 
-        if (updatedFlight.getAirline() != null) {
-            flight.setAirline(updatedFlight.getAirline());
+        if (dto.getAirlineId() != null) {
+            flight.setAirline(
+                    airlineRepository.findById(dto.getAirlineId())
+                            .orElseThrow(() -> new ResourceNotFoundException("Airline not found"))
+            );
         }
 
-        if (updatedFlight.getGate() != null) {
-            flight.setGate(updatedFlight.getGate());
+        if (dto.getGateId() != null) {
+            flight.setGate(
+                    gateRepository.findById(dto.getGateId())
+                            .orElseThrow(() -> new ResourceNotFoundException("Gate not found"))
+            );
+        }
+
+        if (dto.getStatus() != null) {
+            flight.setStatus(FlightStatus.valueOf(dto.getStatus().toUpperCase()));
         }
 
         Flight saved = flightRepository.save(flight);
@@ -163,12 +223,10 @@ public class FlightService {
         return mapToDTO(saved);
     }
 
-    // DELETE
     public void deleteFlight(Long id) {
         flightRepository.deleteById(id);
     }
 
-    // ARRIVAL AND DEPARTURE ENDPOINTS
     public List<FlightDTO> getFlightsByDepartureAirport(Long airportId) {
         return flightRepository.findByDepartureAirportId(airportId)
                 .stream()

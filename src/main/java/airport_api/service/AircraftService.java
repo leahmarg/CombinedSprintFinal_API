@@ -18,7 +18,6 @@ public class AircraftService {
         this.aircraftRepository = aircraftRepository;
     }
 
-    // ENTITY TO DTO
     private AircraftDTO mapToDTO(Aircraft aircraft) {
         AircraftDTO dto = new AircraftDTO();
 
@@ -29,7 +28,6 @@ public class AircraftService {
         return dto;
     }
 
-    // VALIDATION
     private void validateAircraft(Aircraft aircraft) {
         if (aircraft.getAircraftModel() == null || aircraft.getAircraftModel().isBlank()) {
             throw new ResourceNotFoundException("Aircraft model is required");
@@ -40,7 +38,6 @@ public class AircraftService {
         }
     }
 
-    // CREATE
     public AircraftDTO createAircraft(Aircraft aircraft) {
         validateAircraft(aircraft);
 
@@ -48,7 +45,6 @@ public class AircraftService {
         return mapToDTO(saved);
     }
 
-    // GET ALL
     public List<AircraftDTO> getAllAircraft() {
         return aircraftRepository.findAll()
                 .stream()
@@ -56,7 +52,6 @@ public class AircraftService {
                 .collect(Collectors.toList());
     }
 
-    // GET BY ID
     public AircraftDTO getAircraftById(Long id) {
         Aircraft aircraft = aircraftRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Aircraft not found"));
@@ -64,7 +59,6 @@ public class AircraftService {
         return mapToDTO(aircraft);
     }
 
-    // UPDATE
     public AircraftDTO updateAircraft(Long id, Aircraft updatedAircraft) {
         Aircraft aircraft = aircraftRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Aircraft not found"));
@@ -81,7 +75,6 @@ public class AircraftService {
         return mapToDTO(saved);
     }
 
-    // DELETE
     public void deleteAircraft(Long id) {
         aircraftRepository.deleteById(id);
     }

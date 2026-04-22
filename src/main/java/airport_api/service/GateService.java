@@ -18,7 +18,6 @@ public class GateService {
         this.gateRepository = gateRepository;
     }
 
-    // ENTITY TO DTQ
     private GateDTO mapToDTO(Gate gate) {
         GateDTO dto = new GateDTO();
 
@@ -33,7 +32,6 @@ public class GateService {
         return dto;
     }
 
-    // VALIDATION
     private void validateGate(Gate gate) {
         if (gate.getGateNumber() == null || gate.getGateNumber().isBlank()) {
             throw new ResourceNotFoundException("Gate number is required");
@@ -44,7 +42,6 @@ public class GateService {
         }
     }
 
-    // CREATE
     public GateDTO createGate(Gate gate) {
         validateGate(gate);
 
@@ -52,7 +49,6 @@ public class GateService {
         return mapToDTO(saved);
     }
 
-    // GET ALL
     public List<GateDTO> getAllGates() {
         return gateRepository.findAll()
                 .stream()
@@ -60,7 +56,6 @@ public class GateService {
                 .collect(Collectors.toList());
     }
 
-    // GET BY ID
     public GateDTO getGateById(Long id) {
         Gate gate = gateRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Gate not found"));
@@ -68,7 +63,6 @@ public class GateService {
         return mapToDTO(gate);
     }
 
-    // UPDATE
     public GateDTO updateGate(Long id, Gate updatedGate) {
         Gate gate = gateRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Gate not found"));
@@ -85,7 +79,6 @@ public class GateService {
         return mapToDTO(saved);
     }
 
-    // DELETE
     public void deleteGate(Long id)  {
         gateRepository.deleteById(id);
     }

@@ -3,6 +3,7 @@ package airport_api.controller;
 import airport_api.dto.AircraftDTO;
 import airport_api.entity.Aircraft;
 import airport_api.service.AircraftService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class AircraftController {
     }
 
     @PostMapping
-    public ResponseEntity<AircraftDTO> createAircraft(@RequestBody Aircraft aircraft) {
+    public ResponseEntity<AircraftDTO> createAircraft(@Valid @RequestBody Aircraft aircraft) {
         return ResponseEntity.ok(aircraftService.createAircraft(aircraft));
     }
 
@@ -36,7 +37,7 @@ public class AircraftController {
     @PutMapping("/{id}")
     public ResponseEntity<AircraftDTO> updateAircraft(
             @PathVariable Long id,
-            @RequestBody Aircraft aircraft
+            @Valid @RequestBody Aircraft aircraft
     ) {
         return ResponseEntity.ok(aircraftService.updateAircraft(id, aircraft));
     }

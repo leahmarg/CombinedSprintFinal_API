@@ -17,6 +17,10 @@ public class Flight {
     private String flightNumber;
     private LocalDateTime departureTime;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private FlightStatus status;
+
     // Many flights can depart from one airport
     @ManyToOne
     private Airport departureAirport;

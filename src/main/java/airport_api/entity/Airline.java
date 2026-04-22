@@ -15,7 +15,7 @@ public class Airline {
     private Long id;
 
     private String airlineName;
-    private String airlineAbrev;
+    private String airlineCode;
     private String country;
 
     // One airline operates many flights
