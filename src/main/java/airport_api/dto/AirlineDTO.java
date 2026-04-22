@@ -11,7 +11,7 @@ public class AirlineDTO {
     @NotBlank(message = "Airline name is required")
     private String airlineName;
 
-    @NotBlank(message = "Airline abbreviation is required")
+    @NotBlank(message = "Airline code is required")
     private String airlineCode;
 
     @NotBlank(message = "Country is required")

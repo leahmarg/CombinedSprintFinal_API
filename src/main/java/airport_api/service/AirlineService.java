@@ -35,7 +35,7 @@ public class AirlineService {
         }
 
         if (airline.getAirlineCode() == null || airline.getAirlineCode().isBlank()) {
-            throw new ResourceNotFoundException("Airline abbreviation is required");
+            throw new ResourceNotFoundException("Airline code is required");
         }
     }
 

@@ -29,7 +29,7 @@ public class AirlineServiceTest {
     void shouldCreateAirport() {
         Airline airline1 = new Airline();
         airline1.setAirlineName("Air Canada");
-        airline1.setAirlineAbrev("AC");
+        airline1.setAirlineCode("AC");
         airline1.setCountry("Canada");
 
         when(airlineRepository.save(any(Airline.class))).thenReturn(airline1);
