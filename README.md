@@ -110,11 +110,32 @@ Passengers:
 
 ---
 
-## 🔐 AUTH
-If security is enabled:
+## 🔐 Authentication (Basic Security)
+
+This API is protected using Spring Security with Basic Authentication.
+
+All endpoints require authentication before access is granted.
+
+### Default Login Credentials
+
 Username: admin  
-Password: admin123  
-Basic Auth (Postman)
+Password: admin123
+
+### How to Use in Postman
+
+1. Open Postman request
+2. Go to the **Authorization** tab
+3. Select **Basic Auth**
+4. Enter credentials:
+    - Username: admin
+    - Password: admin123
+
+### Security Notes
+
+- All API routes are secured by default
+- Authentication is handled in-memory (no database required)
+- CSRF protection is disabled for testing purposes
+- Suitable for development and demonstration purposes
 
 ---
 
